@@ -2,7 +2,6 @@
 function toggleFullscreen() {
     const navContainer = document.querySelector('.nav-container');
     const helpBtn = document.getElementById('help-btn');
-
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen()
             .then(() => {
