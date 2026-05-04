@@ -1,0 +1,187 @@
+/* --- 基本レイアウト --- */
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --dot-color: #9387A9;
+    /* レスポンシブ用の基本サイズ定義 */
+    --menu-item-width: clamp(50px, 12vw, 70px);
+    --menu-dot-size: calc(var(--menu-item-width) * 0.85);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.clock-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-display {
+    text-align: center;
+}
+
+.time-text {
+    font-size: clamp(4rem, 20vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.date-text {
+    font-size: clamp(1rem, 5vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+/* --- レスポンシブ・メニューレイアウト --- */
+.menu-wrapper {
+    height: 20vh; /* 画面高の20% */
+    max-height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.nav-container {
+    position: relative;
+    display: flex;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    padding: 6px;
+    border-radius: 100px; /* 常に丸く */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.selection-dot {
+    position: absolute;
+    width: var(--menu-dot-size);
+    height: var(--menu-dot-size);
+    background-color: var(--dot-color);
+    border-radius: 50%;
+    z-index: 1;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%); /* XはJSで制御 */
+    filter: drop-shadow(0 0 10px var(--dot-color));
+}
+
+.menu-items {
+    display: flex;
+    z-index: 2;
+    position: relative;
+}
+
+.menu-item {
+    width: var(--menu-item-width);
+    height: var(--menu-item-width);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.label {
+    font-weight: 800;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.menu-item.active .label {
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+/* --- テーマ別微調整 --- */
+.theme-normal { --bg-color: #1a1a1a; --text-color: #ffffff; }
+.theme-white { --bg-color: #ffffff; --text-color: #222222; }
+.theme-white .nav-container { background: rgba(0, 0, 0, 0.85); }
+.theme-analog { --bg-color: #f8f9fa; --text-color: #333333; }
+.theme-paper { 
+    --bg-color: #f4f1ea; --text-color: #2c3e50; 
+    background-image: radial-gradient(#dcd9cf 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+.theme-neon { 
+    --bg-color: #0d0221; --text-color: #00f3ff;
+    text-shadow: 0 0 15px #00f3ff;
+}
+.theme-dark { --bg-color: #000000; --text-color: #d1d1d1; }
+
+/* --- アナログ時計 (レスポンシブ対応) --- */
+.clock-face {
+    width: min(350px, 70vw);
+    height: min(350px, 70vw);
+    border: clamp(5px, 2vw, 10px) solid currentColor;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.mark {
+    position: absolute;
+    width: 2px;
+    height: 3%;
+    background-color: currentColor;
+    left: 50%;
+    top: 0;
+    transform-origin: 50% min(175px, 35vw);
+}
+.mark.hour-mark { width: 4px; height: 6%; }
+
+.number-label {
+    position: absolute;
+    font-weight: 900;
+    font-size: clamp(1rem, 5vw, 1.8rem);
+    left: 50%;
+    top: 50%;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    background: currentColor;
+    transform-origin: 50% 100%;
+    border-radius: 10px;
+}
+.hour-hand { width: 2.5%; height: 25%; margin-left: -1.25%; z-index: 3; }
+.minute-hand { width: 1.5%; height: 38%; margin-left: -0.75%; z-index: 2; }
+.second-hand { width: 0.8%; height: 45%; background: #ff4757; margin-left: -0.4%; z-index: 1; }
+
+.center-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 4%; height: 4%;
+    background: currentColor;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
