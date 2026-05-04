@@ -2,21 +2,31 @@
 function initClockFace() {
     const marksContainer = document.getElementById('marks-container');
     const numbersContainer = document.getElementById('numbers-container');
+    const clockFace = document.querySelector('.clock-face');
     
-    if (!marksContainer || !numbersContainer) return;
+    if (!marksContainer || !numbersContainer || !clockFace) return;
 
     marksContainer.innerHTML = '';
     numbersContainer.innerHTML = '';
 
+    // リサイズに対応するため、現在の時計のサイズから半径を計算
+    const faceWidth = clockFace.clientWidth;
+    const radius = faceWidth * 0.38; // 外枠に対して適切な余白を持たせる
+
+    // 目盛りの描画
     for (let i = 0; i < 60; i++) {
         const mark = document.createElement('div');
         mark.className = 'mark';
         if (i % 5 === 0) mark.classList.add('hour-mark');
         mark.style.transform = `rotate(${i * 6}deg)`;
+        
+        // 中心点（transform-origin）を動的に設定
+        mark.style.transformOrigin = `50% ${faceWidth / 2}px`;
+        
         marksContainer.appendChild(mark);
     }
 
-    const radius = 135; 
+    // 数字の描画
     for (let i = 1; i <= 12; i++) {
         const angle = (i * 30) * (Math.PI / 180);
         const x = Math.sin(angle) * radius;

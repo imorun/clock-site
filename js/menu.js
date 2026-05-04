@@ -25,24 +25,13 @@ function initMenu() {
         if (theme === 'analog') {
             digital.style.display = 'none';
             analog.style.display = 'block';
+            initClockFace();
         } else {
             digital.style.display = 'block';
             analog.style.display = 'none';
         }
 
-        const navContainer = targetElement.closest('.nav-container');
-        const containerRect = navContainer.getBoundingClientRect();
-        const itemRect = targetElement.getBoundingClientRect();
-        const dotRect = selectionDot.getBoundingClientRect();
-
-        const xPosition = (itemRect.left - containerRect.left) + (itemRect.width / 2) - (dotRect.width / 2);
-
-        gsap.to(selectionDot, {
-            x: xPosition,
-            backgroundColor: color,
-            duration: 0.6,
-            ease: "elastic.out(1, 0.75)"
-        });
+        updateSelectionDot(targetElement, true);
 
         gsap.fromTo(targetElement, 
             { scale: 0.7 }, 
@@ -50,15 +39,35 @@ function initMenu() {
         );
     }
 
-    const initialItem = document.querySelector('.menu-item.active');
-    if (initialItem) {
-        const color = initialItem.getAttribute('data-color');
-        const navContainer = initialItem.closest('.nav-container');
+    function updateSelectionDot(targetElement, animate = false) {
+        if (!targetElement || !selectionDot) return;
+
+        const navContainer = targetElement.closest('.nav-container');
         const containerRect = navContainer.getBoundingClientRect();
-        const itemRect = initialItem.getBoundingClientRect();
+        const itemRect = targetElement.getBoundingClientRect();
         const dotRect = selectionDot.getBoundingClientRect();
+        const color = targetElement.getAttribute('data-color');
 
         const xPosition = (itemRect.left - containerRect.left) + (itemRect.width / 2) - (dotRect.width / 2);
-        gsap.set(selectionDot, { x: xPosition, backgroundColor: color });
+
+        if (animate) {
+            gsap.to(selectionDot, {
+                x: xPosition,
+                backgroundColor: color,
+                duration: 0.6,
+                ease: "elastic.out(1, 0.75)"
+            });
+        } else {
+            gsap.set(selectionDot, { x: xPosition, backgroundColor: color });
+        }
     }
+
+    // グローバルに公開（リサイズ時に呼べるように）
+    window.refreshMenuSelection = () => {
+        const activeItem = document.querySelector('.menu-item.active');
+        if (activeItem) updateSelectionDot(activeItem, false);
+    };
+
+    // 初回配置
+    window.refreshMenuSelection();
 }

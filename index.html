@@ -11,6 +11,22 @@
 
 <body class="theme-normal">
     <div class="main-container" id="fullscreen-target">
+        <!-- ヘルプボタン -->
+        <button id="help-btn" class="help-button" aria-label="ヘルプ">?</button>
+
+        <!-- ヘルプモーダル -->
+        <div id="help-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>使い方</h2>
+                <ul>
+                    <li><strong>時計エリア:</strong> クリックでフルスクリーン切り替え</li>
+                    <li><strong>下のメニュー:</strong> テーマ（デザイン）の切り替え</li>
+                    <li><strong>リサイズ:</strong> 画面サイズに合わせて自動調整されます</li>
+                </ul>
+                <button id="close-help" class="close-button">とじる</button>
+            </div>
+        </div>
+
         <!-- フルスクリーン切り替えエリア -->
         <div class="clock-section" onclick="toggleFullscreen()">
             <div id="digital-clock" class="clock-display">
