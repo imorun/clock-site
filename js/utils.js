@@ -1,13 +1,20 @@
 // --- ユーティリティ ---
 function toggleFullscreen() {
+    const navContainer = document.querySelector('.nav-container');
+    const helpBtn = document.getElementById('help-btn');
+
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-            console.log(`Error: ${err.message}`);
-        });
+        document.documentElement.requestFullscreen()
+            .then(() => {
+                if (navContainer) navContainer.style.display = 'none';
+                if (helpBtn) helpBtn.style.display = 'none';
+            })
+            .catch(err => console.error(err));
     } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
+        document.exitFullscreen?.();
+
+        if (navContainer) navContainer.style.display = '';
+        if (helpBtn) helpBtn.style.display = '';
     }
 }
 
