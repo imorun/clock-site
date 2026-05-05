@@ -12,7 +12,9 @@ body.is-pseudo-fullscreen .clock-section {
 body.is-safari-mobile .menu-wrapper {
     padding-bottom: 100px; /* 下部バーを考慮して少し上げる */
 }
-
+body.is-safari-mobile .nav-container {
+    padding-bottom: 100px; /* 下部バーを考慮して少し上げる */
+}
 /* --- ヘルプボタン --- */
 .help-button {
     position: absolute;
