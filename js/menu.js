@@ -20,7 +20,11 @@ function initMenu() {
         const theme = targetElement.getAttribute('data-theme');
         const color = targetElement.getAttribute('data-color');
         
-        document.body.className = `theme-${theme}`;
+        // classNameの直書きを避け、classListを使用して既存のクラス（is-safari-mobile等）を保持する
+        const currentThemes = Array.from(document.body.classList).filter(c => c.startsWith('theme-'));
+        currentThemes.forEach(c => document.body.classList.remove(c));
+        document.body.classList.add(`theme-${theme}`);
+
         document.documentElement.style.setProperty('--dot-color', color);
 
         const digital = document.getElementById('digital-clock');
