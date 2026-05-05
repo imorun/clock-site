@@ -1,61 +1,36 @@
 window.addEventListener('DOMContentLoaded', () => {
     console.log('%c[System] App initializing...', 'color: #4A90E2; font-weight: bold;');
 
-    // ブラウザ判定ロジックの追加
-    const ua = window.navigator.userAgent;
-    const lower = ua.toLowerCase();
+    // モジュール化したブラウザ情報を取得
+    const browserData = getBrowserData();
+    const { name, ua, lower, keyword, isSafariMobile } = browserData;
 
-    let browser = "";
-    let keyword = "";
+    // --- ログ表示 (複数ハイライト + バージョン黄色) ---
+    let format = `%c[Browser: ${name}] `;
+    let styles = ['color: #73AFCE; font-weight: bold;'];
 
-    // 判定 + ハイライト用キーワード
-    if (lower.includes("edge") || lower.includes("edg")) {
-        browser = "Edge";
-        keyword = "edg"; // UAは Edg
-    } else if (lower.includes("line")) {
-        browser ="LINE"
-        keyword = "line"
-    } else if (lower.includes("chrome")) {
-        browser = "Chrome";
-        keyword = "chrome";
-    } else if (lower.includes("safari")) {
-        browser = "Safari";
-        keyword = "safari";
-    } else if (lower.includes("firefox")) {
-        browser = "Firefox";
-        keyword = "firefox";
-    } else if (lower.includes("msie")) {
-        browser = "Internet Explorer";
-        keyword = "msie";
-    } else if (lower.includes("trident")) {
-        browser = "Internet Explorer";
-        keyword = "trident";
-    } else {
-        browser = "Other";
-        keyword = "";
+    let i = 0;
+    while (i < ua.length) {
+        const restLower = lower.slice(i);
+        if (keyword && restLower.startsWith(keyword)) {
+            format += `%c${ua.slice(i, i + keyword.length)}`;
+            styles.push('color: red; font-weight: bold;');
+            i += keyword.length;
+            continue;
+        }
+        const versionMatch = restLower.match(/^\/\d+(\.\d+)*/);
+        if (versionMatch) {
+            const ver = ua.slice(i, i + versionMatch[0].length);
+            format += `%c${ver}`;
+            styles.push('color: yellow; font-weight: bold;');
+            i += versionMatch[0].length;
+            continue;
+        }
+        format += `%c${ua[i]}`;
+        styles.push('color: #4e778b;');
+        i++;
     }
-
-    const index = lower.indexOf(keyword);
-
-    if (index !== -1 && keyword !== "") {
-        const before = ua.slice(0, index);
-        const match = ua.slice(index, index + keyword.length);
-        const after = ua.slice(index + keyword.length);
-
-        console.log(
-            `%c[Browser: ${browser}] %c${before}%c${match}%c${after}`,
-            'color: #73AFCE;; font-weight: bold;',
-            'color: #4e778b',
-            'color: red; font-weight: bold;',
-            'color: #4e778b'
-        );
-    } else {
-        console.log(`%c[Browser: ${browser}] ${ua}`, 'color: #73AFCE;');
-    }
-    // Safariモバイル判定 (iOSのブラウザ全般)
-    const isSafariMobile = /iP(ad|hone|od).+Version\/[\d\.]+.*Safari/i.test(navigator.userAgent) ||
-        (/iP(ad|hone|od)/i.test(navigator.userAgent) && !window.MSStream);
-
+    console.log(format, ...styles);
     console.log(`%c[Browser] Safari Mobile: ${isSafariMobile}`, 'color: #73AFCE;');
 
     if (isSafariMobile) {
@@ -65,12 +40,12 @@ window.addEventListener('DOMContentLoaded', () => {
     initClockFace();
     initMenu();
     initHelpModal();
-    updateClock(); // 内部で requestAnimationFrame を呼ぶように変更済み
+    updateClock();
 
     console.log('%c[System] App ready!', 'color: #27ae60; font-weight: bold;');
 });
 
-// リサイズイベントの登録（デバウンス処理付き）
+// リサイズイベントの登録
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
@@ -83,5 +58,4 @@ window.addEventListener('resize', () => {
     }, 150);
 });
 
-// フルスクリーン機能のバインド
 window.toggleFullscreen = toggleFullscreen;
