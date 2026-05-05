@@ -12,6 +12,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (lower.includes("edge") || lower.includes("edg")) {
         browser = "Edge";
         keyword = "edg"; // UAは Edg
+    } else if (lower.includes("line")) {
+        browser ="LINE"
+        keyword = "line"
     } else if (lower.includes("chrome")) {
         browser = "Chrome";
         keyword = "chrome";
