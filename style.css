@@ -1,3 +1,18 @@
+/* --- 疑似フルスクリーン (モバイル用) --- */
+body.is-pseudo-fullscreen .menu-wrapper,
+body.is-pseudo-fullscreen .help-button {
+    display: none !important;
+}
+
+body.is-pseudo-fullscreen .clock-section {
+    height: 100vh;
+}
+
+/* --- ブラウザ別調整 (Safari Mobile等) --- */
+body.is-safari-mobile .menu-wrapper {
+    padding-bottom: 40px; /* 下部バーを考慮して少し上げる */
+}
+
 /* --- ヘルプボタン --- */
 .help-button {
     position: absolute;

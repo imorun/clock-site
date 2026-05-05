@@ -6,12 +6,16 @@ function initClockFace() {
     
     if (!marksContainer || !numbersContainer || !clockFace) return;
 
+    console.log('%c[Clock] Initializing clock face rendering...', 'color: #A67C52;');
+
     marksContainer.innerHTML = '';
     numbersContainer.innerHTML = '';
 
     // リサイズに対応するため、現在の時計のサイズから半径を計算
     const faceWidth = clockFace.clientWidth;
     const radius = faceWidth * 0.38; // 外枠に対して適切な余白を持たせる
+
+    console.log(`%c[Clock] Face width: ${faceWidth}px, radius: ${radius.toFixed(2)}px`, 'color: #A67C52; font-size: 0.9em;');
 
     // 目盛りの描画
     for (let i = 0; i < 60; i++) {

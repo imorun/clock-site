@@ -1,11 +1,14 @@
 // --- メニュー操作・テーマ制御 ---
 function initMenu() {
+    console.log('%c[Menu] Initializing menu system...', 'color: #9387A9;');
     const menuItems = document.querySelectorAll('.menu-item');
     const selectionDot = document.querySelector('.selection-dot');
 
     menuItems.forEach((item) => {
         item.addEventListener('click', () => {
             if (item.classList.contains('active')) return;
+            const theme = item.getAttribute('data-theme');
+            console.log(`%c[Theme] Switching to: ${theme}`, 'color: #E16596; font-weight: bold;');
             setActiveTheme(item);
         });
     });
