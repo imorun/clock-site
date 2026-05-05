@@ -10,7 +10,7 @@ body.is-pseudo-fullscreen .clock-section {
 
 /* --- ブラウザ別調整 (Safari Mobile等) --- */
 body.is-safari-mobile .menu-wrapper {
-    padding-bottom: 120px; /* 下部バーを考慮して少し上げる */
+    padding-bottom: 135px; /* 下部バーを考慮して少し上げる */
 }
 
 /* --- ヘルプボタン --- */
