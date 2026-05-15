@@ -28,10 +28,12 @@ def debug_ua():
     ua = data.get('ua')
     lower = data.get('lower')
     browser = data.get('browser') # ブラウザ名を取得
+    os_info = data.get('os') # OS情報を取得
     
     print("\n" + "="*50)
     print("[Debug Server] 受信データ:")
     print(f"  Browser: {browser}") # ブラウザ名を表示
+    print(f"  OS:      {os_info}") # OS情報を表示
     print(f"  Raw UA:  {ua}")
     print(f"  Lower:   {lower}")
     print("="*50 + "\n")

@@ -20,6 +20,20 @@ function initMenu() {
         const theme = targetElement.getAttribute('data-theme');
         const color = targetElement.getAttribute('data-color');
         
+        // トースト通知を表示
+        if (typeof showToast === 'function') {
+            const themeNames = {
+                'normal': 'Normal',
+                'white': 'White',
+                'analog': 'Analog',
+                'paper': 'Paper',
+                'neon': 'Neon',
+                'dark': 'Dark'
+            };
+            const themeName = themeNames[theme] || theme;
+            showToast(`Switched to ${themeName} theme`, { text: themeName, color: color });
+        }
+
         // classNameの直書きを避け、classListを使用して既存のクラス（is-safari-mobile等）を保持する
         const currentThemes = Array.from(document.body.classList).filter(c => c.startsWith('theme-'));
         currentThemes.forEach(c => document.body.classList.remove(c));

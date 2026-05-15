@@ -3,15 +3,26 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // モジュール化したブラウザ情報を取得
     const browserData = getBrowserData();
-    const { name, ua, lower, keyword, isSafariMobile } = browserData;
+    const { name, os, ua, lower, keyword, isSafariMobile } = browserData;
 
     // --- ログ表示 (複数ハイライト + バージョン黄色) ---
+    console.log(`%c[Device] ${os}`, 'color: #27ae60; font-weight: bold;');
     let format = `%c[Browser: ${name}] `;
     let styles = ['color: #73AFCE; font-weight: bold;'];
 
+    const osLower = os.toLowerCase();
     let i = 0;
     while (i < ua.length) {
         const restLower = lower.slice(i);
+
+        // OSを緑でハイライト
+        if (os !== "Unknown OS" && restLower.startsWith(osLower)) {
+            format += `%c${ua.slice(i, i + osLower.length)}`;
+            styles.push('color: #27ae60; font-weight: bold;');
+            i += osLower.length;
+            continue;
+        }
+
         if (keyword && restLower.startsWith(keyword)) {
             format += `%c${ua.slice(i, i + keyword.length)}`;
             styles.push('color: red; font-weight: bold;');
@@ -30,6 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
         styles.push('color: #4e778b;');
         i++;
     }
+
     console.log(format, ...styles);
     console.log(`%c[Browser] Safari Mobile: ${isSafariMobile}`, 'color: #73AFCE;');
 

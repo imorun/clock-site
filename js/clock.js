@@ -47,19 +47,31 @@ function initClockFace() {
 }
 
 function updateClock() {
-    const now = new Date();
+    // 現在の時刻を取得 (内蔵またはオンライン同期オフセットを適用)
+    let now = new Date();
+    if (window.isOnlineTime && window.timeOffset !== 0) {
+        now = new Date(Date.now() + window.timeOffset);
+    }
+
     const ms = now.getMilliseconds();
     const s = now.getSeconds();
     const m = now.getMinutes();
     const h = now.getHours();
 
-    // デジタル表示 (1秒ごとでOK)
-    const hStr = String(h).padStart(2, '0');
+    // デジタル表示
+    let displayH = h;
+    let ampm = "";
+    if (!window.is24HourFormat) {
+        ampm = h >= 12 ? " PM" : " AM";
+        displayH = h % 12 || 12; // 0時は12時として表示
+    }
+
+    const hStr = String(displayH).padStart(2, '0');
     const mStr = String(m).padStart(2, '0');
     const sStr = String(s).padStart(2, '0');
     
     const timeDisplay = document.getElementById('time');
-    if (timeDisplay) timeDisplay.textContent = `${hStr}:${mStr}:${sStr}`;
+    if (timeDisplay) timeDisplay.textContent = `${hStr}:${mStr}:${sStr}${ampm}`;
 
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} (${days[now.getDay()]})`;

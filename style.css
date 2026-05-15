@@ -1,6 +1,8 @@
 /* --- 疑似フルスクリーン (モバイル用) --- */
 body.is-pseudo-fullscreen .menu-wrapper,
-body.is-pseudo-fullscreen .help-button {
+body.is-pseudo-fullscreen .help-button,
+body.is-pseudo-fullscreen .format-button,
+body.is-pseudo-fullscreen .source-button {
     display: none !important;
 }
 
@@ -13,18 +15,17 @@ body.is-safari-mobile .menu-wrapper {
     padding-bottom: 160px; /* 下部バーを考慮して少し上げる */
 }
 
-/* --- ヘルプボタン --- */
-.help-button {
+/* --- ボタン (ヘルプ・形式切り替え・ソース切り替え) --- */
+.help-button, .format-button, .source-button {
     position: absolute;
     top: 20px;
-    right: 20px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 2px solid currentColor;
     background: transparent;
     color: currentColor;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     z-index: 100;
@@ -35,13 +36,28 @@ body.is-safari-mobile .menu-wrapper {
     opacity: 0.6;
 }
 
-.help-button:hover {
+.help-button {
+    right: 20px;
+    font-size: 20px;
+}
+
+.format-button {
+    right: 70px;
+}
+
+.source-button {
+    right: 120px;
+}
+
+.help-button:hover, .format-button:hover, .source-button:hover {
     opacity: 1;
     transform: scale(1.1);
     background: rgba(255, 255, 255, 0.1);
 }
 
-.theme-white .help-button:hover {
+.theme-white .help-button:hover, 
+.theme-white .format-button:hover, 
+.theme-white .source-button:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 
@@ -105,6 +121,46 @@ body.is-safari-mobile .menu-wrapper {
 
 .close-button:hover {
     opacity: 0.8;
+}
+
+/* --- トースト通知 --- */
+.toast-container {
+    position: fixed;
+    top: 20px; /* 上部から表示 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(-20px); /* 上から下へ */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.theme-white .toast {
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* --- 基本レイアウト --- */

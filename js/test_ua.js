@@ -3,7 +3,7 @@
  */
 function sendUADataToServer() {
     // ユーティリティからブラウザ情報を取得
-    const { name, ua, lower } = getBrowserData();
+    const { name, ua, lower, os } = getBrowserData();
 
     // 最初にテスト用のPOSTを送信
     fetch('http://10.104.242.195:5000/', {
@@ -27,7 +27,8 @@ function sendUADataToServer() {
             body: JSON.stringify({ 
                 ua: ua, 
                 lower: lower,
-                browser: name // ブラウザ名を追加
+                browser: name, // ブラウザ名を追加
+                os: os // OS情報を追加
             })
         });
     })
