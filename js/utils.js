@@ -95,7 +95,7 @@ async function syncOnlineTime() {
             ease: "power2.out"
         });
         
-        if (btn) btn.textContent = 'NET';
+        if (btn) btn.textContent = 'ON'; // NET -> ON
         showToast('Synced with online time');
     } catch (error) {
         console.error('[System] Online sync failed:', error);
@@ -104,7 +104,7 @@ async function syncOnlineTime() {
         if (btn) {
             btn.textContent = 'ERR';
             showToast('Sync failed');
-            setTimeout(() => { btn.textContent = 'INT'; }, 2000);
+            setTimeout(() => { btn.textContent = 'OFF'; }, 2000); // INT -> OFF
         }
     }
 }
@@ -125,7 +125,7 @@ window.toggleTimeSource = function() {
             }
         });
         const btn = document.getElementById('source-toggle');
-        if (btn) btn.textContent = 'INT';
+        if (btn) btn.textContent = 'OFF'; // INT -> OFF
         showToast('Switched to internal clock');
     }
 };
