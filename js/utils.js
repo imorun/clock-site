@@ -126,7 +126,7 @@ window.toggleTimeSource = function() {
         });
         const btn = document.getElementById('source-toggle');
         if (btn) btn.textContent = 'OFF'; // INT -> OFF
-        showToast('Switched to internal clock');
+        showToast('Switched to offline clock');
     }
 };
 
